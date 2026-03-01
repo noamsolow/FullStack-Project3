@@ -1,0 +1,299 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contacts App</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+    <!-- SPA mount point — all page content is injected here by the router -->
+    <div id="app"></div>
+
+    <!--
+        HTML page templates — embedded directly so the app works both via
+        a live server (http://) AND when opened straight from Explorer (file://).
+        The router reads these with document.getElementById() — no fetch() needed.
+    -->
+
+    <!-- ── Login template -->
+    <template id="tpl-login">
+        <section class="auth-page">
+            <div class="auth-card">
+
+                <div class="auth-logo">
+                    <div class="auth-logo-icon">
+                        <!-- Person / contacts icon -->
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <h1 class="auth-title">Contacts App</h1>
+                <p class="auth-subtitle">Sign in to your account</p>
+
+                <div id="login-banner" class="banner hidden"></div>
+
+                <form id="login-form" novalidate>
+                    <div class="field-group">
+                        <label for="login-username">Username</label>
+                        <input id="login-username" type="text" autocomplete="username" placeholder="Enter your username" />
+                        <span class="field-error" id="login-username-err"></span>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="login-password">Password</label>
+                        <input id="login-password" type="password" autocomplete="current-password" placeholder="Enter your password" />
+                        <span class="field-error" id="login-password-err"></span>
+                    </div>
+
+                    <button type="submit" id="login-btn" class="btn btn-primary">
+                        <span id="login-btn-text">Sign In</span>
+                        <span id="login-spinner" class="spinner hidden"></span>
+                    </button>
+                </form>
+
+                <p class="auth-link">
+                    Don't have an account? <a href="#register">Register here</a>
+                </p>
+            </div>
+        </section>
+    </template>
+
+    <!-- ── Register template -->
+    <template id="tpl-register">
+        <section class="auth-page">
+            <div class="auth-card">
+
+                <div class="auth-logo">
+                    <div class="auth-logo-icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <h1 class="auth-title">Create Account</h1>
+                <p class="auth-subtitle">Join Contacts App today</p>
+
+                <div id="register-banner" class="banner hidden"></div>
+
+                <form id="register-form" novalidate>
+                    <div class="field-group">
+                        <label for="reg-fullname">Full Name</label>
+                        <input id="reg-fullname" type="text" autocomplete="name" placeholder="Your full name" />
+                        <span class="field-error" id="reg-fullname-err"></span>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="reg-email">Email <span style="font-weight:400;color:#94a3b8">(optional)</span></label>
+                        <input id="reg-email" type="email" autocomplete="email" placeholder="your@email.com" />
+                        <span class="field-error" id="reg-email-err"></span>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="reg-username">Username</label>
+                        <input id="reg-username" type="text" autocomplete="username" placeholder="Choose a username" />
+                        <span class="field-error" id="reg-username-err"></span>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="reg-password">Password</label>
+                        <input id="reg-password" type="password" autocomplete="new-password" placeholder="At least 4 characters" />
+                        <span class="field-error" id="reg-password-err"></span>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="reg-confirm">Confirm Password</label>
+                        <input id="reg-confirm" type="password" autocomplete="new-password" placeholder="Repeat your password" />
+                        <span class="field-error" id="reg-confirm-err"></span>
+                    </div>
+
+                    <button type="submit" id="register-btn" class="btn btn-primary">
+                        <span id="register-btn-text">Create Account</span>
+                        <span id="register-spinner" class="spinner hidden"></span>
+                    </button>
+                </form>
+
+                <p class="auth-link">
+                    Already have an account? <a href="#login">Sign in here</a>
+                </p>
+            </div>
+        </section>
+    </template>
+
+    <!-- ── Contacts template -->
+    <template id="tpl-contacts">
+        <section class="contacts-page">
+
+            <!-- Header -->
+            <header class="app-header">
+                <div class="app-logo-wrap">
+                    <div class="app-logo-icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+                        </svg>
+                    </div>
+                    <span class="app-logo">Contacts</span>
+                </div>
+                <div class="header-right">
+                    <!-- Populated by contacts-page.js -->
+                    <div id="user-greeting" class="user-badge"></div>
+                    <button id="logout-btn" class="btn btn-secondary">Sign Out</button>
+                </div>
+            </header>
+
+            <!-- Network error banner -->
+            <div id="contacts-banner" class="banner hidden"></div>
+
+            <!-- Toolbar -->
+            <div class="toolbar">
+                <div class="search-wrap">
+                    <span class="search-icon">
+                        <!-- Search icon -->
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2.2"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"/>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                        </svg>
+                    </span>
+                    <input id="search-input" type="search" class="search-input" placeholder="Search by name, phone or email…" />
+                </div>
+                <button id="add-btn" class="btn btn-primary">
+                    <!-- Plus icon -->
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2.8"
+                         stroke-linecap="round">
+                        <line x1="12" y1="5" x2="12" y2="19"/>
+                        <line x1="5" y1="12" x2="19" y2="12"/>
+                    </svg>
+                    Add Contact
+                </button>
+            </div>
+
+            <!-- Contacts table -->
+            <div class="table-wrapper">
+                <div id="loading-overlay" class="loading-overlay hidden">
+                    <span class="spinner"></span> Loading contacts…
+                </div>
+                <table class="contacts-table">
+                    <thead>
+                        <tr>
+                            <th class="avatar-col"></th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Address</th>
+                            <th class="actions-col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="contacts-tbody">
+                        <!-- Rows injected by contacts-page.js -->
+                    </tbody>
+                </table>
+                <!-- Empty state -->
+                <div id="empty-state" class="empty-state hidden">
+                    <svg class="empty-state-icon" width="56" height="56" viewBox="0 0 24 24"
+                         fill="none" stroke="currentColor" stroke-width="1.2"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                    </svg>
+                    <p class="empty-state-title">No contacts yet</p>
+                    <p class="empty-state-sub">Click "+ Add Contact" to get started</p>
+                </div>
+            </div>
+
+            <!-- Add / Edit Modal -->
+            <div id="modal-overlay" class="modal-overlay hidden">
+                <div class="modal">
+                    <div class="modal-header">
+                        <h2 id="modal-title">Add Contact</h2>
+                        <button id="modal-close" class="modal-close" aria-label="Close">&times;</button>
+                    </div>
+
+                    <div id="modal-banner" class="banner hidden"></div>
+
+                    <form id="contact-form" novalidate>
+                        <input type="hidden" id="contact-id" value="" />
+
+                        <div class="form-row">
+                            <div class="field-group">
+                                <label for="contact-firstname">First Name <span style="color:#dc2626">*</span></label>
+                                <input id="contact-firstname" type="text" placeholder="First name" />
+                                <span class="field-error" id="contact-firstname-err"></span>
+                            </div>
+                            <div class="field-group">
+                                <label for="contact-lastname">Last Name</label>
+                                <input id="contact-lastname" type="text" placeholder="Last name" />
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="field-group">
+                                <label for="contact-phone">Phone</label>
+                                <input id="contact-phone" type="tel" placeholder="Phone number" />
+                            </div>
+                            <div class="field-group">
+                                <label for="contact-email">Email</label>
+                                <input id="contact-email" type="email" placeholder="Email address" />
+                            </div>
+                        </div>
+
+                        <div class="field-group">
+                            <label for="contact-address">Address</label>
+                            <input id="contact-address" type="text" placeholder="Street, City" />
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" id="modal-cancel-btn" class="btn btn-secondary">Cancel</button>
+                            <button type="submit" id="modal-save-btn" class="btn btn-primary">
+                                <span id="modal-btn-text">Save Contact</span>
+                                <span id="modal-spinner" class="spinner hidden"></span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </section>
+    </template>
+
+    <!--
+        Script load order — dependencies must load before dependents:
+        DB layer → Server layer → Network layer → Router → Page controllers → App entry point
+    -->
+
+    <!-- Layer 1: Database APIs (localStorage) -->
+    <script src="js/DB/UsersDB.js"></script>
+    <script src="js/DB/DataDB.js"></script>
+
+    <!-- Layer 2: Servers (depend on DB APIs and SessionStore) -->
+    <script src="js/server/UsersServer.js"></script>
+    <script src="js/server/DataServer.js"></script>
+
+    <!-- Layer 3: Network simulation (depends on servers) -->
+    <script src="js/network/network.js"></script>
+
+    <!-- Layer 4: FAJAX (depends on Network) -->
+    <script src="js/network/fajax.js"></script>
+
+    <!-- Layer 5: Router (depends on Network + FAJAX) -->
+    <script src="js/router.js"></script>
+
+    <!-- Layer 6: Page controllers (depend on Router + FAJAX) -->
+    <script src="js/pages/LoginPage.js"></script>
+    <script src="js/pages/RegisterPage.js"></script>
+    <script src="js/pages/ContactsPage.js"></script>
+
+    <!-- Layer 7: App entry point (wires everything together, loaded last) -->
+    <script src="js/app.js"></script>
+
+</body>
+</html>
