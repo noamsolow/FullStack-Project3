@@ -5,7 +5,7 @@
 window.Network = {
 
     // Configuration (adjustable from browser console for testing)
-    dropRate: 0.2,   // 0.0 = never drop, 0.5 = drop 50% of messages
+    dropRate: 0.1,   // 0.0 = never drop, 0.5 = drop 50% of messages
     minDelay: 1000,  // minimum one-way delay in ms
     maxDelay: 3000,  // maximum one-way delay in ms
 
