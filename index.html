@@ -8,14 +8,9 @@
 </head>
 <body>
 
-    <!-- SPA mount point — all page content is injected here by the router -->
     <div id="app"></div>
 
-    <!--
-        HTML page templates — embedded directly so the app works both via
-        a live server (http://) AND when opened straight from Explorer (file://).
-        The router reads these with document.getElementById() — no fetch() needed.
-    -->
+
 
     <!-- ── Login template -->
     <template id="tpl-login">
@@ -24,7 +19,6 @@
 
                 <div class="auth-logo">
                     <div class="auth-logo-icon">
-                        <!-- Person / contacts icon -->
                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
                         </svg>
@@ -124,11 +118,9 @@
         </section>
     </template>
 
-    <!-- ── Contacts template -->
     <template id="tpl-contacts">
         <section class="contacts-page">
 
-            <!-- Header -->
             <header class="app-header">
                 <div class="app-logo-wrap">
                     <div class="app-logo-icon">
@@ -139,13 +131,11 @@
                     <span class="app-logo">Contacts</span>
                 </div>
                 <div class="header-right">
-                    <!-- Populated by contacts-page.js -->
                     <div id="user-greeting" class="user-badge"></div>
                     <button id="logout-btn" class="btn btn-secondary">Sign Out</button>
                 </div>
             </header>
 
-            <!-- Network error banner -->
             <div id="contacts-banner" class="banner hidden"></div>
 
             <!-- Toolbar -->
@@ -265,34 +255,24 @@
         </section>
     </template>
 
-    <!--
-        Script load order — dependencies must load before dependents:
-        DB layer → Server layer → Network layer → Router → Page controllers → App entry point
-    -->
 
-    <!-- Layer 1: Database APIs (localStorage) -->
+
     <script src="js/DB/UsersDB.js"></script>
     <script src="js/DB/DataDB.js"></script>
 
-    <!-- Layer 2: Servers (depend on DB APIs and SessionStore) -->
     <script src="js/server/UsersServer.js"></script>
     <script src="js/server/DataServer.js"></script>
 
-    <!-- Layer 3: Network simulation (depends on servers) -->
     <script src="js/network/network.js"></script>
 
-    <!-- Layer 4: FAJAX (depends on Network) -->
     <script src="js/network/fajax.js"></script>
 
-    <!-- Layer 5: Router (depends on Network + FAJAX) -->
     <script src="js/router.js"></script>
 
-    <!-- Layer 6: Page controllers (depend on Router + FAJAX) -->
     <script src="js/pages/LoginPage.js"></script>
     <script src="js/pages/RegisterPage.js"></script>
     <script src="js/pages/ContactsPage.js"></script>
 
-    <!-- Layer 7: App entry point (wires everything together, loaded last) -->
     <script src="js/app.js"></script>
 
 </body>

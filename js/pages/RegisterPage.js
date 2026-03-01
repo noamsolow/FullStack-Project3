@@ -118,7 +118,6 @@ function registerPageInit() {
         });
     }
 
-    // ── Auto-login after registration
     function autoLogin(username, passwordHash) {
         const loginFxhr = new FXMLHttpRequest();
         loginFxhr.open('POST', '/users/login');
@@ -133,14 +132,12 @@ function registerPageInit() {
                 };
                 Router.navigate('contacts');
             } else {
-                // Login failed — go to login page
                 showBanner('Account created! Please log in.', 'success');
                 Router.navigate('login');
             }
         };
 
         loginFxhr.onerror = function() {
-            // Network error — go to login page
             showBanner('Account created! Please log in.', 'success');
             Router.navigate('login');
         };
@@ -148,7 +145,6 @@ function registerPageInit() {
         loginFxhr.send({ username: username, passwordHash: passwordHash });
     }
 
-    // ── Event binding
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         doRegister();
