@@ -1,21 +1,8 @@
-﻿// login-page.js
-// Login screen controller — called by the router after injecting login.html.
+﻿// loginPage.js
 
 
-// ── Password hashing
-// djb2 hash — pure JS, no libraries. Exposed globally so login-page.js
-// can hash the password before sending it over the "network".
-window.hashPassword = function(str) {
-    let hash = 5381;
-    for (let i = 0; i < str.length; i++) {
-        hash = ((hash << 5) + hash) + str.charCodeAt(i);
-        hash = hash & hash; // force 32-bit integer
-    }
-    
-    return String(hash >>> 0); // unsigned 32-bit, always positive string
-};
+
 function loginPageInit() {
-    // ── DOM refs
     const form        = document.getElementById('login-form');
     const usernameEl  = document.getElementById('login-username');
     const passwordEl  = document.getElementById('login-password');
@@ -26,7 +13,6 @@ function loginPageInit() {
     const btnText     = document.getElementById('login-btn-text');
     const spinner     = document.getElementById('login-spinner');
 
-    // ── Helpers
     function showBanner(msg, type, retryFn) {
         banner.textContent = '';
         banner.className   = 'banner ' + type;
@@ -42,6 +28,7 @@ function loginPageInit() {
     }
 
     function hideBanner()    { banner.classList.add('hidden'); }
+    
     function clearErrors()   {
         usernameErr.textContent = '';
         passwordErr.textContent = '';
@@ -55,7 +42,6 @@ function loginPageInit() {
         spinner.classList.toggle('hidden', !on);
     }
 
-    // ── Validation
     function validate() {
         clearErrors();
         let ok = true;
@@ -72,7 +58,6 @@ function loginPageInit() {
         return ok;
     }
 
-    // ── FAJAX request
     function doLogin() {
         if (!validate()) return;
         hideBanner();
@@ -104,11 +89,9 @@ function loginPageInit() {
             showBanner('Network error — please try again', 'error', doLogin);
         };
 
-        // Hash password on client before sending (same approach as register)
         fxhr.send({ username: username, passwordHash: hashPassword(password) });
     }
 
-    // ── Event binding
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         doLogin();

@@ -1,8 +1,6 @@
 ﻿// register-page.js
-// Register screen controller — called by the router after injecting register.html.
 
 function registerPageInit() {
-    // ── DOM refs
     const form        = document.getElementById('register-form');
     const fullnameEl  = document.getElementById('reg-fullname');
     const emailEl     = document.getElementById('reg-email');
@@ -21,7 +19,6 @@ function registerPageInit() {
     const btnText     = document.getElementById('register-btn-text');
     const spinner     = document.getElementById('register-spinner');
 
-    // ── Helpers
     function showBanner(msg, type, retryFn) {
         banner.textContent = '';
         banner.className   = 'banner ' + type;
@@ -51,7 +48,6 @@ function registerPageInit() {
         spinner.classList.toggle('hidden', !on);
     }
 
-    // ── Validation
     function validate() {
         clearErrors();
         let ok = true;
@@ -90,7 +86,6 @@ function registerPageInit() {
         return ok;
     }
 
-    // ── FAJAX request
     function doRegister() {
         if (!validate()) return;
         hideBanner();
@@ -104,7 +99,6 @@ function registerPageInit() {
             const body = JSON.parse(fxhr.responseText);
             if (fxhr.status === 201) {
                 showBanner('Account created! Logging you in…', 'success');
-                // Auto-login after successful registration
                 autoLogin(usernameEl.value.trim(), hashPassword(passwordEl.value));
             } else {
                 showBanner(body.message || 'Registration failed', 'error');
@@ -139,16 +133,16 @@ function registerPageInit() {
                 };
                 Router.navigate('contacts');
             } else {
-                // Fallback to login page if auto-login fails
+                // Login failed — go to login page
                 showBanner('Account created! Please log in.', 'success');
-                setTimeout(function() { Router.navigate('login'); }, 1500);
+                Router.navigate('login');
             }
         };
 
         loginFxhr.onerror = function() {
-            // Fallback to login page if network error
+            // Network error — go to login page
             showBanner('Account created! Please log in.', 'success');
-            setTimeout(function() { Router.navigate('login'); }, 1500);
+            Router.navigate('login');
         };
 
         loginFxhr.send({ username: username, passwordHash: passwordHash });
