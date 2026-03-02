@@ -1,7 +1,6 @@
 ﻿// data-db.js
 
 
-
 const CONTACTS_KEY    = 'contacts_app__contacts';
 const CONTACTS_ID_KEY = 'contacts_app__contacts_next_id';
 

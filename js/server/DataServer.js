@@ -55,6 +55,16 @@ window.DataServer = {
         if (!fields || !fields.firstName) {
             return { status: 400, body: { message: 'First name is required' } };
         }
+        const existing = DataDB.getAll(userId);
+        const duplicate = existing.find(function(c) {
+            return c.firstName === fields.firstName &&
+                   c.lastName === (fields.lastName || '') &&
+                   c.phone === (fields.phone || '');
+        });
+        if (duplicate) {
+            return { status: 200, body: { contact: duplicate, message: 'Contact exists' } };
+        }
+        
         const contact = DataDB.add({ userId, ...fields });
         return { status: 201, body: { contact: contact } };
     },
